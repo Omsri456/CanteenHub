@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
@@ -5,6 +6,7 @@ import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { Search, Star, Plus, Filter } from 'lucide-react';
+import { AspectRatio } from '../ui/aspect-ratio'; // ✅ import AspectRatio
 
 export function Menu({ onAddToCart }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -123,7 +125,7 @@ export function Menu({ onAddToCart }) {
           {filteredItems.map((item) => (
             <Card key={item.id} className="group hover:shadow-md transition-all duration-200 overflow-hidden">
               <CardContent className="p-0">
-                <div className="aspect-square relative overflow-hidden">
+                <AspectRatio ratio={4 / 3} className="relative overflow-hidden">
                   <ImageWithFallback
                     src={item.image}
                     alt={item.name}
@@ -143,7 +145,7 @@ export function Menu({ onAddToCart }) {
                     <Star className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" />
                     <span className="text-xs font-medium text-white">4.8</span>
                   </div>
-                </div>
+                </AspectRatio>
                 
                 <div className="p-3 space-y-2">
                   <div className="space-y-1">
@@ -188,3 +190,4 @@ export function Menu({ onAddToCart }) {
     </div>
   );
 }
+
