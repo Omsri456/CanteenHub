@@ -37,13 +37,31 @@ export function Navbar({ user, onNavigate, cartItemCount, onLogout }) {
             >
               Menu
             </Button>
-            {user && (
+            {user && user.role !== 'admin' && (
               <Button
                 variant="ghost"
                 onClick={() => onNavigate('orders')}
                 className="text-foreground hover:text-primary"
               >
                 Orders
+              </Button>
+            )}
+            {user && user.role === 'staff' && (
+              <Button
+                variant="ghost"
+                onClick={() => onNavigate('staff-dashboard')}
+                className="text-foreground hover:text-primary"
+              >
+                Staff Dashboard
+              </Button>
+            )}
+            {user && user.role === 'admin' && (
+              <Button
+                variant="ghost"
+                onClick={() => onNavigate('admin-dashboard')}
+                className="text-foreground hover:text-primary"
+              >
+                Admin Dashboard
               </Button>
             )}
           </div>
@@ -130,7 +148,7 @@ export function Navbar({ user, onNavigate, cartItemCount, onLogout }) {
               <Menu className="w-4 h-4" />
               <span>Menu</span>
             </Button>
-            {user && (
+            {user && user.role !== 'admin' && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -139,6 +157,28 @@ export function Navbar({ user, onNavigate, cartItemCount, onLogout }) {
               >
                 <Menu className="w-4 h-4" />
                 <span>Orders</span>
+              </Button>
+            )}
+            {user && user.role === 'staff' && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onNavigate('staff-dashboard')}
+                className="flex flex-col items-center space-y-1 text-xs"
+              >
+                <Menu className="w-4 h-4" />
+                <span>Staff</span>
+              </Button>
+            )}
+            {user && user.role === 'admin' && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onNavigate('admin-dashboard')}
+                className="flex flex-col items-center space-y-1 text-xs"
+              >
+                <Menu className="w-4 h-4" />
+                <span>Admin</span>
               </Button>
             )}
           </div>

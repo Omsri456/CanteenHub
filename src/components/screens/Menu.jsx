@@ -8,11 +8,12 @@ import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { Search, Star, Plus, Filter } from 'lucide-react';
 import { AspectRatio } from '../ui/aspect-ratio'; // ✅ import AspectRatio
 
-export function Menu({ onAddToCart }) {
+export function Menu({ menuItems, onAddToCart }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const menuItems = [
+  // Use menuItems from props with default mock data if none provided
+  const displayMenuItems = menuItems && menuItems.length > 0 ? menuItems : [
     {
       id: '1',
       name: 'Classic Burger',
@@ -68,10 +69,16 @@ export function Menu({ onAddToCart }) {
       available: false
     }
   ];
+  
+  // Add default image URLs for items that might not have them
+  const itemsWithImages = displayMenuItems.map(item => ({
+    ...item,
+    image: item.image || `https://images.unsplash.com/photo-1721103530348-69262a02090b?q=80&w=200&auto=format&fit=crop&ixlib=rb-4.0.3`
+  }));
 
   const categories = ['All', 'Main Course', 'Salads', 'Sandwiches', 'Beverages', 'Desserts'];
 
-  const filteredItems = menuItems.filter(item => {
+  const filteredItems = itemsWithImages.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          item.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;

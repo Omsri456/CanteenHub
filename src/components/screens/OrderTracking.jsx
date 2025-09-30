@@ -4,7 +4,7 @@ import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Clock, CheckCircle, Package, Truck } from 'lucide-react';
 
-export function OrderTracking({ orders }) {
+export function OrderTracking({ orders = [], user, onNavigate }) {
   const getStatusIcon = (status) => {
     switch (status) {
       case 'preparing':
@@ -62,7 +62,7 @@ export function OrderTracking({ orders }) {
               <p className="text-muted-foreground mb-4">
                 You haven't placed any orders yet. Start by browsing our menu!
               </p>
-              <Button>Browse Menu</Button>
+              <Button onClick={() => onNavigate('menu')}>Browse Menu</Button>
             </CardContent>
           </Card>
         ) : (
@@ -70,21 +70,21 @@ export function OrderTracking({ orders }) {
             {orders.map((order) => (
               <Card key={order.id} className="overflow-hidden">
                 <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="text-xl">Order #{order.id}</CardTitle>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Placed at {order.orderTime}
-                      </p>
-                    </div>
-                    <Badge className={`${getStatusColor(order.status)} border`}>
-                      <div className="flex items-center gap-2">
-                        {getStatusIcon(order.status)}
-                        {getStatusText(order.status)}
-                      </div>
-                    </Badge>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-xl">Order #{order.id}</CardTitle>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Placed at {order.orderTime}
+                  </p>
+                </div>
+                <Badge className={`${getStatusColor(order.status)} border`}>
+                  <div className="flex items-center gap-2">
+                    {getStatusIcon(order.status)}
+                    {getStatusText(order.status)}
                   </div>
-                </CardHeader>
+                </Badge>
+              </div>
+            </CardHeader>
 
                 <CardContent>
                   <div className="space-y-4">
@@ -121,6 +121,20 @@ export function OrderTracking({ orders }) {
                         <p className="text-sm text-muted-foreground mt-1">
                           Estimated time: {order.estimatedTime}
                         </p>
+                      )}
+                      
+                      {/* Staff-only Update Status Button */}
+                      {user && user.role === 'staff' && order.status !== 'delivered' && (
+                        <Button 
+                          className="w-full mt-4"
+                          onClick={() => {
+                            // In a real application, this would call an API
+                            // Here we're just simulating the status update
+                            alert('Status update functionality would be implemented here');
+                          }}
+                        >
+                          Update Status
+                        </Button>
                       )}
                     </div>
 
